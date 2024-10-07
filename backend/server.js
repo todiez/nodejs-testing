@@ -10,11 +10,31 @@ const server = http.createServer((req, res) => {
 
   //set header content type
   res.setHeader("Content-Type", "text/html");
-  //   res.write("Hello, World!");
-  //   res.end();
+
+  let path = "./pages/";
+  switch (req.url) {
+    //getting the url from the request object and comparing it to the existing routes on the server
+    case "/":
+      path += "index.html";
+      res.statusCode = 200;
+      break;
+    case "/about":
+      path += "about.html";
+      res.statusCode = 200;
+      break;
+    case "/about-me":
+      res.setHeader("Location", "/about");
+      res.statusCode = 301;
+      res.end();
+      break;
+    default:
+      path += "404.html";
+      res.statusCode = 404;
+      break;
+  }
 
   //send html file from local storage
-  fs.readFile("./pages/index.html", (err, data) => {
+  fs.readFile(path, (err, data) => {
     if (err) {
       console.log(err);
       res.end();

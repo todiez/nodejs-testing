@@ -9,34 +9,49 @@ const port = process.env.PORT;
 //register view engine (ejs)
 app.set("view engine", "ejs");
 //default folder is called views, however in this project its pages --> telling this to ejs:
-app.set("views", "pages")
+app.set("views", "pages");
 
 app.get("/", (req, res) => {
   // .send automatically sets header depending on the content sending back, further is also
   //infers the status code
 
   //sending an html page:
-  res.sendFile("./pages/index.html", { root: __dirname });
+  //res.sendFile("./pages/index.html", { root: __dirname });
   //second argument tells express to look in the root folder of the directory
 
   //or directly html code
   //res.send("<h2>Home Page</h2>");
+
+  //or just render a view:
+  const blogs = [
+    {
+      title: "Yoshi finds eggs",
+      snippet: "Lorem ipsum dolor sit amet consectetur",
+    },
+    {
+      title: "Mario finds stars",
+      snippet: "Lorem ipsum dolor sit amet consectetur",
+    },
+    {
+      title: "How to defeat bowser",
+      snippet: "Lorem ipsum dolor sit amet consectetur",
+    },
+  ];
+  res.render("index", { title: "Home", blogs });
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile("./pages/about.html", { root: __dirname });
-  //second argument tells express to look in the root folder of the directory
+  res.render("about", {title: "About"});
 });
 
-//redirects (if an url is moved permanently)
-app.get("/old-link", (req, res) => {
-  res.redirect("/about");
+app.get("/blogs/create", (req, res) => {
+  res.render("create");
 });
 
 //404 page - use function is fired for every request, but only if it reaches
 //the code block
 app.use((req, res) => {
-  res.status(404).sendFile("./pages/404.html", { root: __dirname });
+  res.status(404).render("404");
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

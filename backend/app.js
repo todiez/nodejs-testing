@@ -6,6 +6,11 @@ const app = express();
 
 const port = process.env.PORT;
 
+//register view engine (ejs)
+app.set("view engine", "ejs");
+//default folder is called views, however in this project its pages --> telling this to ejs:
+app.set("views", "pages")
+
 app.get("/", (req, res) => {
   // .send automatically sets header depending on the content sending back, further is also
   //infers the status code
@@ -28,7 +33,7 @@ app.get("/old-link", (req, res) => {
   res.redirect("/about");
 });
 
-//404 page - use function is fired for every request, but only if it reaches 
+//404 page - use function is fired for every request, but only if it reaches
 //the code block
 app.use((req, res) => {
   res.status(404).sendFile("./pages/404.html", { root: __dirname });

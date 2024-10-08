@@ -7,6 +7,8 @@ const app = express();
 
 const port = process.env.PORT;
 
+//middleware & static files
+app.use(express.static("public")); //makes everything as static file inside public avaible to the front end (browser)
 app.use(morgan("dev"));
 
 //register view engine (ejs)

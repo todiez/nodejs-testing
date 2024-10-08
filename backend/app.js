@@ -1,10 +1,13 @@
 const express = require("express");
 require("dotenv").config();
+const morgan = require("morgan");
 
 //create an instance of express app and store it in app
 const app = express();
 
 const port = process.env.PORT;
+
+app.use(morgan("dev"));
 
 //register view engine (ejs)
 app.set("view engine", "ejs");
@@ -41,11 +44,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.render("about", {title: "About"});
+  res.render("about", { title: "About" });
 });
 
 app.get("/blogs/create", (req, res) => {
-  res.render("create");
+  res.render("create", { title: "New Blog" });
 });
 
 //404 page - use function is fired for every request, but only if it reaches
